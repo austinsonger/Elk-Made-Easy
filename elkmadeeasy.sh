@@ -31,10 +31,10 @@ sudo apt-get install curl apt-transport-https software-properties-common lsb-rel
 echo "$(tput setaf 1) ---- Installing Logstash ----"
 sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
 sudo dpkg -i /opt/logstash-7.5.0.deb
-
 echo "$(tput setaf 1) ---- Starting Logstash ----"
 sudo systemctl restart logstash
-sudo systemctl enable logstash   
+sudo systemctl enable logstash  
+
 ##########################################
 # Install Elasticsearch
 ##########################################
@@ -44,6 +44,7 @@ sudo dpkg -i /opt/elasticsearch-7.5.0.deb
 echo "$(tput setaf 1) ---- Starting Elasticsearch ----"
 sudo systemctl restart elasticsearch
 sudo systemctl enable elasticsearch
+
 #####################
 # Install kibana
 #####################
@@ -53,6 +54,7 @@ sudo dpkg -i /opt/kibana-7.5.0-amd64.deb
 echo "$(tput setaf 1) ---- Starting Kibana ----"
 sudo systemctl restart kibana
 sudo systemctl enable kibana
+
 #####################
 # Install Filebeat
 #####################
@@ -74,6 +76,7 @@ sudo filebeat setup -e
 sudo filebeat setup --dashboards
 sudo filebeat setup --index-management
 sudo filebeat setup --pipelines
+
 #####################
 # Install Metricbeat
 #####################
@@ -92,13 +95,14 @@ sudo metricbeat setup -e
 sudo metricbeat setup --dashboards
 sudo metricbeat setup --index-management
 sudo metricbeat setup --pipelines
+
 #####################
 # Install Packetbeat
 #####################
 echo "$(tput setaf 1) ---- Installing Packetbeat ----"
 sudo apt-get install libpcap0.8
-curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.4.0-amd64.deb
-sudo dpkg -i packetbeat-7.4.0-amd64.deb
+curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.5.0-amd64.deb
+sudo dpkg -i packetbeat-7.5.0-amd64.deb
 sudo rm packetbeat*
 echo "$(tput setaf 1) ---- Starting Packetbeat ----"
 sudo systemctl enable packetbeat
@@ -112,8 +116,8 @@ sudo packetbeat setup --pipelines
 # Install Auditbeat
 #####################
 echo "$(tput setaf 1) ---- Installing Auditbeat ----"
-curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.4.0-amd64.deb
-sudo dpkg -i auditbeat-7.4.0-amd64.deb
+curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.5.0-amd64.deb
+sudo dpkg -i auditbeat-7.5.0-amd64.deb
 sudo rm auditbeat*
 echo "$(tput setaf 1) ---- Starting Auditbeat ----"
 sudo systemctl enable auditbeat
