@@ -40,7 +40,7 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/
 echo "---- Installing the Elasticsearch Debian Package ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0.deb
 # sudo dpkg -i /opt/elasticsearch-7.5.0.deb
-apt-get install elasticsearch=7.5.0 -y
+apt-get install elasticsearch=7.5.0 -y --allow-downgrades
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
 sed -i 's/^#node\.name: node\-1/node\.name: node\-1/'i /etc/elasticsearch/elasticsearch.yml
@@ -60,7 +60,7 @@ sleep 120
 echo "---- Installing the Kibana Debian Package ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
 # sudo dpkg -i /opt/kibana-7.5.0-amd64.deb
-apt-get install kibana=7.5.0 -y
+apt-get install kibana=7.5.0 -y --allow-downgrades
 cp /etc/kibana/kibana.yml /tmp/
 my_ip=\""$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')\""
 sed -i "s/^#server\.host: \"localhost\"/server\.host: $my_ip/" /etc/kibana/kibana.yml
@@ -85,7 +85,7 @@ echo "---- Installing Filebeat ----"
 # curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb
 # sudo dpkg -i filebeat-7.5.0-amd64.deb
 # sudo rm filebeat*
-apt-get install filebeat=7.5.0 -y
+apt-get install filebeat=7.5.0 -y --allow-downgrades
 cp /etc/filebeat/filebeat.yml /tmp/
 my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'):9200"
 sed -i "s/YOUR_ELASTIC_SERVER_IP:9200/$my_ip/" /etc/filebeat/filebeat.yml
@@ -102,7 +102,7 @@ systemctl restart filebeat
 echo "---- Installing Logstash ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
 # sudo dpkg -i /opt/logstash-7.5.0.deb
-apt-get install logstash=7.5.0 -y
+apt-get install logstash=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Logstash ----"
 sudo systemctl enable logstash
@@ -116,7 +116,7 @@ echo "---- Installing Metricbeat ----"
 #curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.5.0-amd64.deb
 #sudo dpkg -i metricbeat-7.5.0-amd64.deb
 #sudo rm metricbeat*
-apt-get install metricbeat=7.5.0 -y
+apt-get install metricbeat=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Metricbeat ----"
 sudo systemctl enable  metricbeat
@@ -131,7 +131,7 @@ echo "---- Installing Packetbeat ----"
 # curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.5.0-amd64.deb
 # sudo dpkg -i packetbeat-7.5.0-amd64.deb
 # sudo rm packetbeat*
-apt-get install packetbeat=7.5.0 -y
+apt-get install packetbeat=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Packetbeat ----"
 sudo systemctl enable packetbeat
@@ -145,7 +145,7 @@ echo "---- Installing Auditbeat ----"
 # curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.5.0-amd64.deb
 # sudo dpkg -i auditbeat-7.5.0-amd64.deb
 # sudo rm auditbeat*
-apt-get auditbeat=7.5.0 -y
+apt-get auditbeat=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Auditbeat ----"
 sudo systemctl enable auditbeat
