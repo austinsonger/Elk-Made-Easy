@@ -190,13 +190,17 @@ EOF
 cp /etc/nginx/sites-available/default /tmp/
 my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'):5601"
 sed -i "s/localhost:5601/$my_ip/" /etc/nginx/sites-available/default
+
 apt install apache2-utils -y
+systemctl restart nginx
+systemctl restart elasticsearch kibana
 clear
 echo -e "You need to set a username and password to login."
 read -p "Please enter a username : " user
 htpasswd -c /etc/nginx/conf.d/kibana.htpasswd $user
-systemctl restart nginx
-systemctl restart elasticsearch kibana
+my_ip=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
+echo "All done! You can login under https://$my_ip"
+read -p "Press [Enter] to exit."
 
 
 
