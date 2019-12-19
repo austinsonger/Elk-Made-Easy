@@ -16,7 +16,6 @@ echo " System Update... "
 
 # Checking whether user has enough permission to run this script
 sudo -n true
-sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update 
 sudo apt-get upgrade -y
 sudo apt-get install openjdk-8-jre-headless -y
@@ -42,9 +41,12 @@ apt-get update
 apt-get install elasticsearch=7.5.0
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
+sed -i 's/^#node\.name: node\-1/node\.name: node\-1/'i /etc/elasticsearch/elasticsearch.yml
+sed -i 's/^#cluster\.initial_master_nodes: \["node-1", "node-2"]/cluster.initial_master_nodes: ["node-1"]'/i /etc/elasticsearch/elasticsearch.yml
 echo "$(tput setaf 1) ---- Starting Elasticsearch ----"
-systemctl restart elasticsearch
+systemctl daemon-reload
 systemctl enable elasticsearch
+systemctl start elasticsearch
 systemctl restart elasticsearch
 echo RESTARTING Elasticsearch.......
 sleep 120
@@ -65,8 +67,8 @@ sed -i "s/^#elasticsearch\.hosts/elasticsearch.hosts/" /etc/kibana/kibana.yml
 sed -i "s/^#elasticsearch\.url/elasticsearch.url/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/localhost:9200/$my_ip/" /etc/kibana/kibana.yml
 echo "$(tput setaf 1) ---- Starting Kibana ----"
-systemctl restart kibana
 systemctl enable kibana
+systemctl start kibana
 systemctl restart kibana
 echo Restarting Kibana.......
 sleep 10
