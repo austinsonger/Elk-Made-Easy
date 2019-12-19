@@ -27,18 +27,6 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/
 # Install ElasticSearch, Logstash, Kibana, Metricbeat, Packetbeat, and Auditbeat on Debian/Ubuntu
 ##################################################################################################
 
-##########################################
-# Install Logstash
-##########################################
-echo "$(tput setaf 1) ---- Installing Logstash ----"
-# sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
-# sudo dpkg -i /opt/logstash-7.5.0.deb
-apt-get update
-apt-get install logstash
-echo "$(tput setaf 1) ---- Starting Logstash ----"
-ystemctl restart logstash.service
-systemctl enable logstash.service
-systemctl restart logstash.service
 
 ##########################################
 # Install Elasticsearch
@@ -94,6 +82,19 @@ sudo filebeat setup --dashboards
 sudo filebeat setup --index-management
 sudo filebeat setup --pipelines
 systemctl restart filebeat.service
+
+##########################################
+# Install Logstash
+##########################################
+echo "$(tput setaf 1) ---- Installing Logstash ----"
+# sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
+# sudo dpkg -i /opt/logstash-7.5.0.deb
+apt-get update
+apt-get install logstash
+echo "$(tput setaf 1) ---- Starting Logstash ----"
+ystemctl restart logstash.service
+systemctl enable logstash.service
+systemctl restart logstash.service
 
 #####################
 # Install Metricbeat
