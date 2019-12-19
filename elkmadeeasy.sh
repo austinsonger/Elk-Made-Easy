@@ -43,11 +43,11 @@ apt-get install elasticsearch=7.5.0
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
 echo "$(tput setaf 1) ---- Starting Elasticsearch ----"
-systemctl restart elasticsearch.service
-systemctl enable elasticsearch.service
-echo "$(tput setaf 1) ---- RESTARTING Elasticsearch ----"
-sleep 240
-systemctl restart elasticsearch.service
+systemctl restart elasticsearch
+systemctl enable elasticsearch
+systemctl restart elasticsearch
+echo RESTARTING Elasticsearch.......
+sleep 120
 
 #####################
 # Install kibana
@@ -55,15 +55,22 @@ systemctl restart elasticsearch.service
 echo "$(tput setaf 1) ---- Installing the Kibana Debian Package ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
 # sudo dpkg -i /opt/kibana-7.5.0-amd64.deb
-apt-get update
 apt-get install kibana=7.5.0
+cp /etc/kibana/kibana.yml /tmp/
+my_ip=\""$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')\""
+sed -i "s/^#server\.host: \"localhost\"/server\.host: $my_ip/" /etc/kibana/kibana.yml
 sed -i "s/^#server\.port/server.port/" /etc/elasticsearch/elasticsearch.yml
-sed -i "s/^#server\.host/server.host/" /etc/elasticsearch/elasticsearch.yml
+my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'):9200"
+sed -i "s/^#elasticsearch\.hosts/elasticsearch.hosts/" /etc/kibana/kibana.yml
 sed -i "s/^#elasticsearch\.url/elasticsearch.url/" /etc/elasticsearch/elasticsearch.yml
+sed -i "s/localhost:9200/$my_ip/" /etc/kibana/kibana.yml
 echo "$(tput setaf 1) ---- Starting Kibana ----"
-systemctl restart kibana.service
-systemctl enable kibana.service
-systemctl restart kibana.service
+systemctl restart kibana
+systemctl enable kibana
+systemctl restart kibana
+echo Restarting Kibana.......
+sleep 10
+
 
 #####################
 # Install Filebeat
