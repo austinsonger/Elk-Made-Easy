@@ -6,12 +6,12 @@ Black 0;30
 
 ###################################################
 
-echo -e "--------------------------------------------------------------------------\e[32mGreen"
-echo -e "$(date) \e[32mGreen"
-echo -e "Starting ELK+ Made Easy \e[32mGreen"
-echo -e "ELK Stack for Debian-based Systems \e[32mGreen"
-echo -e "Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat \e[32mGreen"
-echo -e "-------------------------------------------------------------------------\e[32mGreen"
+echo -e "--------------------------------------------------------------------------"
+echo -e "$(date)"
+echo -e "Starting ELK+ Made Easy"
+echo -e "ELK Stack for Debian-based Systems"
+echo -e "Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat"
+echo -e "-------------------------------------------------------------------------"
 
 echo -e "ELK+ Made Easy Status\e[39mDefault" #White
 
@@ -29,24 +29,24 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/
 
 
 
-##################################################################################################
-# Install ElasticSearch, Logstash, Kibana, Metricbeat, Packetbeat, and Auditbeat on Debian/Ubuntu
-##################################################################################################
+######################################################################
+# Install ELK + Metricbeat, Packetbeat, and Auditbeat on Debian/Ubuntu
+######################################################################
 
 
 ##########################################
 # Install Elasticsearch
 ##########################################
-echo "$(tput setaf 1) ---- Installing the Elasticsearch Debian Package ----"
+echo "---- Installing the Elasticsearch Debian Package ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0.deb
 # sudo dpkg -i /opt/elasticsearch-7.5.0.deb
-apt-get update
-apt-get install elasticsearch=7.5.0
+apt-get install elasticsearch=7.5.0 -y
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
 sed -i 's/^#node\.name: node\-1/node\.name: node\-1/'i /etc/elasticsearch/elasticsearch.yml
 sed -i 's/^#cluster\.initial_master_nodes: \["node-1", "node-2"]/cluster.initial_master_nodes: ["node-1"]'/i /etc/elasticsearch/elasticsearch.yml
-echo "$(tput setaf 1) ---- Starting Elasticsearch ----"
+#---------------------------------------
+echo "---- Starting Elasticsearch ----"
 systemctl daemon-reload
 systemctl enable elasticsearch
 systemctl start elasticsearch
@@ -57,10 +57,10 @@ sleep 120
 #####################
 # Install kibana
 #####################
-echo "$(tput setaf 2) ---- Installing the Kibana Debian Package ----"
+echo "---- Installing the Kibana Debian Package ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
 # sudo dpkg -i /opt/kibana-7.5.0-amd64.deb
-apt-get install kibana=7.5.0
+apt-get install kibana=7.5.0 -y
 cp /etc/kibana/kibana.yml /tmp/
 my_ip=\""$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')\""
 sed -i "s/^#server\.host: \"localhost\"/server\.host: $my_ip/" /etc/kibana/kibana.yml
@@ -69,7 +69,8 @@ my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'
 sed -i "s/^#elasticsearch\.hosts/elasticsearch.hosts/" /etc/kibana/kibana.yml
 sed -i "s/^#elasticsearch\.url/elasticsearch.url/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/localhost:9200/$my_ip/" /etc/kibana/kibana.yml
-echo "$(tput setaf 2) ---- Starting Kibana ----"
+#---------------------------------------
+echo "---- Starting Kibana ----"
 systemctl enable kibana
 systemctl start kibana
 systemctl restart kibana
@@ -80,16 +81,16 @@ sleep 10
 #####################
 # Install Filebeat
 #####################
-echo "$(tput setaf 3) ---- Installing Filebeat ----"
+echo "---- Installing Filebeat ----"
 # curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb
 # sudo dpkg -i filebeat-7.5.0-amd64.deb
 # sudo rm filebeat*
-apt-get update
-apt-get install filebeat==7.5.0
+apt-get install filebeat=7.5.0 -y
 cp /etc/filebeat/filebeat.yml /tmp/
 my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'):9200"
 sed -i "s/YOUR_ELASTIC_SERVER_IP:9200/$my_ip/" /etc/filebeat/filebeat.yml
-echo "$(tput setaf 3) ---- Starting Filebeat ----"
+#---------------------------------------
+echo "---- Starting Filebeat ----"
 systemctl daemon-reload
 systemctl enable filebeat
 systemctl start filebeat
@@ -98,12 +99,12 @@ systemctl restart filebeat
 ##########################################
 # Install Logstash
 ##########################################
-echo "$(tput setaf 4) ---- Installing Logstash ----"
+echo "---- Installing Logstash ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
 # sudo dpkg -i /opt/logstash-7.5.0.deb
-apt-get update
-apt-get install logstash=7.5.0
-echo "$(tput setaf 4) ---- Starting Logstash ----"
+apt-get install logstash=7.5.0 -y
+#---------------------------------------
+echo "---- Starting Logstash ----"
 sudo systemctl enable logstash
 sudo systemctl start logstash
 sudo systemctl restart logstash
@@ -111,13 +112,13 @@ sudo systemctl restart logstash
 #####################
 # Install Metricbeat
 #####################
-echo "$(tput setaf 5) ---- Installing Metricbeat ----"
+echo "---- Installing Metricbeat ----"
 #curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.5.0-amd64.deb
 #sudo dpkg -i metricbeat-7.5.0-amd64.deb
 #sudo rm metricbeat*
-apt-get update
-apt-get install metricbeat=7.5.0
-echo "$(tput setaf 5) ---- Starting Metricbeat ----"
+apt-get install metricbeat=7.5.0 -y
+#---------------------------------------
+echo "---- Starting Metricbeat ----"
 sudo systemctl enable  metricbeat
 sudo systemctl start metricbeat
 sudo systemctl restart metricbeat
@@ -125,14 +126,14 @@ sudo systemctl restart metricbeat
 #####################
 # Install Packetbeat
 #####################
-echo "$(tput setaf 6) ---- Installing Packetbeat ----"
+echo "---- Installing Packetbeat ----"
 # sudo apt-get install libpcap0.8
 # curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.5.0-amd64.deb
 # sudo dpkg -i packetbeat-7.5.0-amd64.deb
 # sudo rm packetbeat*
-apt-get update
-apt-get install packetbeat=7.5.0
-echo "$(tput setaf 6) ---- Starting Packetbeat ----"
+apt-get install packetbeat=7.5.0 -y
+#---------------------------------------
+echo "---- Starting Packetbeat ----"
 sudo systemctl enable packetbeat
 sudo systemctl start packetbeat
 sudo systemctl restart packetbeat
@@ -140,13 +141,13 @@ sudo systemctl restart packetbeat
 #####################
 # Install Auditbeat
 #####################
-echo "$(tput setaf 7) ---- Installing Auditbeat ----"
+echo "---- Installing Auditbeat ----"
 # curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.5.0-amd64.deb
 # sudo dpkg -i auditbeat-7.5.0-amd64.deb
 # sudo rm auditbeat*
-apt-get update
-apt-get auditbeat=7.5.0
-echo "$(tput setaf 7) ---- Starting Auditbeat ----"
+apt-get auditbeat=7.5.0 -y
+#---------------------------------------
+echo "---- Starting Auditbeat ----"
 sudo systemctl enable auditbeat
 sudo systemctl start auditbeat
 sudo systemctl restart auditbeat
@@ -162,7 +163,7 @@ apt-get update
 # Protect Kibana with a reverse proxy
 ######################################
 
-echo "$(tput setaf 1) ---- Installing and Configuring Reverse Proxy ----"
+echo "---- Installing and Configuring Reverse Proxy ----"
 apt install nginx -y
 mkdir -p /etc/ssl/certs /etc/ssl/private
 cp <ssl_pem> /etc/ssl/certs/kibana-access.pem
