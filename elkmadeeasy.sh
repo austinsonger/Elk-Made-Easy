@@ -13,8 +13,8 @@ echo -e "ELK Stack for Debian-based Systems \e[32mGreen"
 echo -e "Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat \e[32mGreen"
 echo -e "-------------------------------------------------------------------------\e[32mGreen"
 
-echo " ELK+ Made Easy Status "
-echo ""
+echo -e "ELK+ Made Easy Status\e[39mDefault" #White
+
 echo " System Update... "
 
 # Checking whether user has enough permission to run this script
