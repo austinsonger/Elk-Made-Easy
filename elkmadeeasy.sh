@@ -54,7 +54,7 @@ sleep 120
 #####################
 # Install kibana
 #####################
-echo "$(tput setaf 1) ---- Installing the Kibana Debian Package ----"
+echo "$(tput setaf 2) ---- Installing the Kibana Debian Package ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
 # sudo dpkg -i /opt/kibana-7.5.0-amd64.deb
 apt-get install kibana=7.5.0
@@ -66,7 +66,7 @@ my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'
 sed -i "s/^#elasticsearch\.hosts/elasticsearch.hosts/" /etc/kibana/kibana.yml
 sed -i "s/^#elasticsearch\.url/elasticsearch.url/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/localhost:9200/$my_ip/" /etc/kibana/kibana.yml
-echo "$(tput setaf 1) ---- Starting Kibana ----"
+echo "$(tput setaf 2) ---- Starting Kibana ----"
 systemctl enable kibana
 systemctl start kibana
 systemctl restart kibana
@@ -77,7 +77,7 @@ sleep 10
 #####################
 # Install Filebeat
 #####################
-echo "$(tput setaf 1) ---- Installing Filebeat ----"
+echo "$(tput setaf 3) ---- Installing Filebeat ----"
 # curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb
 # sudo dpkg -i filebeat-7.5.0-amd64.deb
 # sudo rm filebeat*
@@ -86,7 +86,7 @@ apt-get install filebeat==7.5.0
 cp /etc/filebeat/filebeat.yml /tmp/
 my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'):9200"
 sed -i "s/YOUR_ELASTIC_SERVER_IP:9200/$my_ip/" /etc/filebeat/filebeat.yml
-echo "$(tput setaf 1) ---- Starting Filebeat ----"
+echo "$(tput setaf 3) ---- Starting Filebeat ----"
 systemctl daemon-reload
 systemctl enable filebeat
 systemctl start filebeat
@@ -95,12 +95,12 @@ systemctl restart filebeat
 ##########################################
 # Install Logstash
 ##########################################
-echo "$(tput setaf 1) ---- Installing Logstash ----"
+echo "$(tput setaf 4) ---- Installing Logstash ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
 # sudo dpkg -i /opt/logstash-7.5.0.deb
 apt-get update
 apt-get install logstash=7.5.0
-echo "$(tput setaf 1) ---- Starting Logstash ----"
+echo "$(tput setaf 4) ---- Starting Logstash ----"
 sudo systemctl enable logstash
 sudo systemctl start logstash
 sudo systemctl restart logstash
@@ -108,13 +108,13 @@ sudo systemctl restart logstash
 #####################
 # Install Metricbeat
 #####################
-echo "$(tput setaf 1) ---- Installing Metricbeat ----"
+echo "$(tput setaf 5) ---- Installing Metricbeat ----"
 #curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.5.0-amd64.deb
 #sudo dpkg -i metricbeat-7.5.0-amd64.deb
 #sudo rm metricbeat*
 apt-get update
 apt-get install metricbeat=7.5.0
-echo "$(tput setaf 1) ---- Starting Metricbeat ----"
+echo "$(tput setaf 5) ---- Starting Metricbeat ----"
 sudo systemctl enable  metricbeat
 sudo systemctl start metricbeat
 sudo systemctl restart metricbeat
@@ -122,14 +122,14 @@ sudo systemctl restart metricbeat
 #####################
 # Install Packetbeat
 #####################
-echo "$(tput setaf 1) ---- Installing Packetbeat ----"
+echo "$(tput setaf 6) ---- Installing Packetbeat ----"
 # sudo apt-get install libpcap0.8
 # curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.5.0-amd64.deb
 # sudo dpkg -i packetbeat-7.5.0-amd64.deb
 # sudo rm packetbeat*
 apt-get update
 apt-get install packetbeat=7.5.0
-echo "$(tput setaf 1) ---- Starting Packetbeat ----"
+echo "$(tput setaf 6) ---- Starting Packetbeat ----"
 sudo systemctl enable packetbeat
 sudo systemctl start packetbeat
 sudo systemctl restart packetbeat
@@ -137,13 +137,13 @@ sudo systemctl restart packetbeat
 #####################
 # Install Auditbeat
 #####################
-echo "$(tput setaf 1) ---- Installing Auditbeat ----"
+echo "$(tput setaf 7) ---- Installing Auditbeat ----"
 # curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.5.0-amd64.deb
 # sudo dpkg -i auditbeat-7.5.0-amd64.deb
 # sudo rm auditbeat*
 apt-get update
 apt-get auditbeat=7.5.0
-echo "$(tput setaf 1) ---- Starting Auditbeat ----"
+echo "$(tput setaf 7) ---- Starting Auditbeat ----"
 sudo systemctl enable auditbeat
 sudo systemctl start auditbeat
 sudo systemctl restart auditbeat
