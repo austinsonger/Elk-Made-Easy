@@ -23,6 +23,8 @@ sudo apt-get install curl apt-transport-https software-properties-common lsb-rel
 curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-7.x.list
 
+
+
 ##################################################################################################
 # Install ElasticSearch, Logstash, Kibana, Metricbeat, Packetbeat, and Auditbeat on Debian/Ubuntu
 ##################################################################################################
@@ -90,7 +92,7 @@ echo "$(tput setaf 1) ---- Installing Logstash ----"
 # sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
 # sudo dpkg -i /opt/logstash-7.5.0.deb
 apt-get update
-apt-get install logstash
+apt-get install logstash=7.5.0
 echo "$(tput setaf 1) ---- Starting Logstash ----"
 ystemctl restart logstash.service
 systemctl enable logstash.service
@@ -155,6 +157,9 @@ sudo auditbeat setup --index-management
 sudo auditbeat setup --pipelines
 systemctl restart auditbeat.service
 
+
+sed -i "s/^deb/#deb/" /etc/apt/sources.list.d/elastic-7.x.list
+apt-get update
 
 ######################################
 # Protect Kibana with a reverse proxy
