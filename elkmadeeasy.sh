@@ -17,7 +17,7 @@ echo " System Update... "
 # Checking whether user has enough permission to run this script
 sudo -n true
 sudo apt-get update 
-sudo apt-get upgrade
+sudo apt-get upgrade -y
 sudo apt-get install openjdk-8-jre-headless -y
 sudo apt-get install curl apt-transport-https software-properties-common lsb-release gnupg2 dirmngr sudo expect net-tools -y
 
