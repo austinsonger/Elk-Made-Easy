@@ -20,7 +20,6 @@ sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update 
 sudo apt-get upgrade -y
 sudo apt-get install openjdk-8-jre-headless -y
-sudo apt install oracle-java8-set-default
 sudo echo $JAVA_HOME
 sudo apt-get install curl apt-transport-https software-properties-common lsb-release gnupg2 dirmngr sudo expect net-tools -y
 curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
@@ -78,22 +77,11 @@ apt-get install filebeat==7.5.0
 cp /etc/filebeat/filebeat.yml /tmp/
 my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'):9200"
 sed -i "s/YOUR_ELASTIC_SERVER_IP:9200/$my_ip/" /etc/filebeat/filebeat.yml
-sudo filebeat modules enable system
-sudo filebeat modules enable cisco
-sudo filebeat modules enable netflow
-sudo filebeat modules enable osquery
-sudo filebeat modules enable elasticsearch
-sudo filebeat modules enable kibana
-sudo filebeat modules enable logstash
 echo "$(tput setaf 1) ---- Starting Filebeat ----"
 systemctl daemon-reload
-systemctl enable filebeat.service
-systemctl start filebeat.service
-sudo filebeat setup -e
-sudo filebeat setup --dashboards
-sudo filebeat setup --index-management
-sudo filebeat setup --pipelines
-systemctl restart filebeat.service
+systemctl enable filebeat
+systemctl start filebeat
+systemctl restart filebeat
 
 ##########################################
 # Install Logstash
@@ -104,9 +92,9 @@ echo "$(tput setaf 1) ---- Installing Logstash ----"
 apt-get update
 apt-get install logstash=7.5.0
 echo "$(tput setaf 1) ---- Starting Logstash ----"
-ystemctl restart logstash.service
-systemctl enable logstash.service
-systemctl restart logstash.service
+sudo systemctl enable logstash
+sudo systemctl start logstash
+sudo systemctl restart logstash
 
 #####################
 # Install Metricbeat
@@ -117,18 +105,10 @@ echo "$(tput setaf 1) ---- Installing Metricbeat ----"
 #sudo rm metricbeat*
 apt-get update
 apt-get install metricbeat=7.5.0
-sudo metricbeat modules enable elasticsearch
-sudo metricbeat modules enable kibana
-sudo metricbeat modules enable logstash
-sudo metricbeat modules enable system
 echo "$(tput setaf 1) ---- Starting Metricbeat ----"
-systemctl enable  metricbeat.service
-systemctl start metricbeat.service
-sudo metricbeat setup -e
-sudo metricbeat setup --dashboards
-sudo metricbeat setup --index-management
-sudo metricbeat setup --pipelines
-systemctl restart metricbeat.service
+sudo systemctl enable  metricbeat
+sudo systemctl start metricbeat
+sudo systemctl restart metricbeat
 
 #####################
 # Install Packetbeat
@@ -141,13 +121,9 @@ echo "$(tput setaf 1) ---- Installing Packetbeat ----"
 apt-get update
 apt-get install packetbeat=7.5.0
 echo "$(tput setaf 1) ---- Starting Packetbeat ----"
-systemctl enable packetbeat.service
-systemctl start packetbeat.service
-sudo packetbeat setup -e
-sudo packetbeat setup --dashboards
-sudo packetbeat setup --index-management
-sudo packetbeat setup --pipelines
-systemctl restart packetbeat.service
+sudo systemctl enable packetbeat
+sudo systemctl start packetbeat
+sudo systemctl restart packetbeat
 
 #####################
 # Install Auditbeat
@@ -159,16 +135,12 @@ echo "$(tput setaf 1) ---- Installing Auditbeat ----"
 apt-get update
 apt-get auditbeat=7.5.0
 echo "$(tput setaf 1) ---- Starting Auditbeat ----"
-systemctl enable auditbeat.service
-systemctl start auditbeat.service
-sudo auditbeat setup -e
-sudo auditbeat setup --dashboards
-sudo auditbeat setup --index-management
-sudo auditbeat setup --pipelines
-systemctl restart auditbeat.service
+sudo systemctl enable auditbeat
+sudo systemctl start auditbeat
+sudo systemctl restart auditbeat
 
 
-##################
+###################
 # Prevent Updates
 ###################
 sed -i "s/^deb/#deb/" /etc/apt/sources.list.d/elastic-7.x.list
