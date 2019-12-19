@@ -6,12 +6,13 @@ Black 0;30
 
 ###################################################
 
-echo "--------------------------------------------------------------------------" 
+echo -e "--------------------------------------------------------------------------\e[32mGreen"
 echo -e "$(date) \e[32mGreen"
 echo -e "Starting ELK+ Made Easy \e[32mGreen"
 echo -e "ELK Stack for Debian-based Systems \e[32mGreen"
 echo -e "Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat \e[32mGreen"
-echo -e "-------------------------------------------------------------------------"
+echo -e "-------------------------------------------------------------------------\e[32mGreen"
+
 echo " ELK+ Made Easy Status "
 echo ""
 echo " System Update... "
