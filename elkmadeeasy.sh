@@ -2,14 +2,16 @@
 #
 # OS: Debian-base Systems
 #
+Black 0;30
+
 ###################################################
 
 echo "--------------------------------------------------------------------------" 
-echo " $(date)"
-echo " Starting ELK+ Made Easy "
-echo " ELK Stack for Debian-based Systems"
-echo " Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat"
-echo "-------------------------------------------------------------------------"
+echo -e "$(date) \e[32mGreen"
+echo -e "Starting ELK+ Made Easy \e[32mGreen"
+echo -e "ELK Stack for Debian-based Systems \e[32mGreen"
+echo -e "Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat \e[32mGreen"
+echo -e "-------------------------------------------------------------------------"
 echo " ELK+ Made Easy Status "
 echo ""
 echo " System Update... "
