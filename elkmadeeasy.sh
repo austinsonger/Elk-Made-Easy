@@ -16,9 +16,12 @@ echo " System Update... "
 
 # Checking whether user has enough permission to run this script
 sudo -n true
+sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update 
 sudo apt-get upgrade -y
 sudo apt-get install openjdk-8-jre-headless -y
+sudo apt install oracle-java8-set-default
+sudo echo $JAVA_HOME
 sudo apt-get install curl apt-transport-https software-properties-common lsb-release gnupg2 dirmngr sudo expect net-tools -y
 curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-7.x.list
@@ -38,9 +41,13 @@ echo "$(tput setaf 1) ---- Installing the Elasticsearch Debian Package ----"
 # sudo dpkg -i /opt/elasticsearch-7.5.0.deb
 apt-get update
 apt-get install elasticsearch=7.5.0
+sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
+sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
 echo "$(tput setaf 1) ---- Starting Elasticsearch ----"
 systemctl restart elasticsearch.service
 systemctl enable elasticsearch.service
+echo "$(tput setaf 1) ---- RESTARTING Elasticsearch ----"
+sleep 240
 systemctl restart elasticsearch.service
 
 #####################
@@ -51,6 +58,9 @@ echo "$(tput setaf 1) ---- Installing the Kibana Debian Package ----"
 # sudo dpkg -i /opt/kibana-7.5.0-amd64.deb
 apt-get update
 apt-get install kibana=7.5.0
+sed -i "s/^#server\.port/server.port/" /etc/elasticsearch/elasticsearch.yml
+sed -i "s/^#server\.host/server.host/" /etc/elasticsearch/elasticsearch.yml
+sed -i "s/^#elasticsearch\.url/elasticsearch.url/" /etc/elasticsearch/elasticsearch.yml
 echo "$(tput setaf 1) ---- Starting Kibana ----"
 systemctl restart kibana.service
 systemctl enable kibana.service
