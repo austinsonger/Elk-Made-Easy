@@ -6,41 +6,46 @@ Black 0;30
 
 ###################################################
 
-echo -e "--------------------------------------------------------------------------"
-echo -e "$(date)"
-echo -e "Starting ELK+ Made Easy"
-echo -e "ELK Stack for Debian-based Systems"
-echo -e "Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat"
-echo -e "-------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------"
+echo "$(date)"
+echo "Starting ELK+ Made Easy"
+echo "ELK Stack for Debian-based Systems"
+echo "Elasticsearch - Logstash - Kibana - Metricbeat - Packetbeat - Auditbeat"
+echo "-------------------------------------------------------------------------"
 
-echo -e "ELK+ Made Easy Status\e[39mDefault" #White
+echo -e "ELK+ Made Easy Status" #White
 
-echo " System Update... "
+echo " System Update..."
 
 # Checking whether user has enough permission to run this script
 sudo -n true
 sudo apt-get update 
 sudo apt-get upgrade -y
 sudo apt-get install openjdk-8-jre-headless -y
+add-apt-repository ppa:webupd8team/java
+echo ">> Pre-agreeing to Oracle License"
+echo debconf shared/accepted-oracle-license-v1-1 select true | \
+  sudo debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | \
+  sudo debconf-set-selections
+echo ">> Installing Java"
+apt-get -y install oracle-java8-installer 
 sudo echo $JAVA_HOME
 sudo apt-get install curl apt-transport-https software-properties-common lsb-release gnupg2 dirmngr sudo expect net-tools -y
 curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-7.x.list
 
-
-
 ######################################################################
 # Install ELK + Metricbeat, Packetbeat, and Auditbeat on Debian/Ubuntu
 ######################################################################
-
 
 ##########################################
 # Install Elasticsearch
 ##########################################
 echo "---- Installing the Elasticsearch Debian Package ----"
-# sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0.deb
-# sudo dpkg -i /opt/elasticsearch-7.5.0.deb
-apt-get install elasticsearch=7.5.0 -y --allow-downgrades
+sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0.deb
+sudo dpkg -i elasticsearch-7.5.0.deb
+# apt-get install elasticsearch=7.5.0 -y --allow-downgrades
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
 sed -i 's/^#node\.name: node\-1/node\.name: node\-1/'i /etc/elasticsearch/elasticsearch.yml
@@ -58,9 +63,9 @@ sleep 120
 # Install kibana
 #####################
 echo "---- Installing the Kibana Debian Package ----"
-# sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
-# sudo dpkg -i /opt/kibana-7.5.0-amd64.deb
-apt-get install kibana=7.5.0 -y --allow-downgrades
+sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
+sudo dpkg -i kibana-7.5.0-amd64.deb
+# apt-get install kibana=7.5.0 -y --allow-downgrades
 cp /etc/kibana/kibana.yml /tmp/
 my_ip=\""$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')\""
 sed -i "s/^#server\.host: \"localhost\"/server\.host: $my_ip/" /etc/kibana/kibana.yml
@@ -82,27 +87,27 @@ sleep 10
 # Install Filebeat
 #####################
 echo "---- Installing Filebeat ----"
-# curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb
-# sudo dpkg -i filebeat-7.5.0-amd64.deb
-# sudo rm filebeat*
-apt-get install filebeat=7.5.0 -y --allow-downgrades
+wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb
+sudo dpkg -i filebeat-7.5.0-amd64.deb
+sudo rm filebeat*
+# apt-get install filebeat=7.5.0 -y --allow-downgrades
 cp /etc/filebeat/filebeat.yml /tmp/
 my_ip="$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'):9200"
 sed -i "s/YOUR_ELASTIC_SERVER_IP:9200/$my_ip/" /etc/filebeat/filebeat.yml
 #---------------------------------------
 echo "---- Starting Filebeat ----"
-systemctl daemon-reload
-systemctl enable filebeat
-systemctl start filebeat
-systemctl restart filebeat
+sudo systemctl daemon-reload
+sudo systemctl enable filebeat
+sudo systemctl start filebeat
+sudo systemctl restart filebeat
 
 ##########################################
 # Install Logstash
 ##########################################
 echo "---- Installing Logstash ----"
-# sudo wget --directory-prefix=/opt/ https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
-# sudo dpkg -i /opt/logstash-7.5.0.deb
-apt-get install logstash=7.5.0 -y --allow-downgrades
+sudo wget https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
+sudo dpkg -i logstash-7.5.0.deb
+# apt-get install logstash=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Logstash ----"
 sudo systemctl enable logstash
@@ -113,10 +118,10 @@ sudo systemctl restart logstash
 # Install Metricbeat
 #####################
 echo "---- Installing Metricbeat ----"
-#curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.5.0-amd64.deb
-#sudo dpkg -i metricbeat-7.5.0-amd64.deb
-#sudo rm metricbeat*
-apt-get install metricbeat=7.5.0 -y --allow-downgrades
+wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.5.0-amd64.deb
+sudo dpkg -i metricbeat-7.5.0-amd64.deb
+sudo rm metricbeat*
+# apt-get install metricbeat=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Metricbeat ----"
 sudo systemctl enable  metricbeat
@@ -127,11 +132,11 @@ sudo systemctl restart metricbeat
 # Install Packetbeat
 #####################
 echo "---- Installing Packetbeat ----"
-# sudo apt-get install libpcap0.8
-# curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.5.0-amd64.deb
-# sudo dpkg -i packetbeat-7.5.0-amd64.deb
-# sudo rm packetbeat*
-apt-get install packetbeat=7.5.0 -y --allow-downgrades
+sudo apt-get install libpcap0.8
+wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.5.0-amd64.deb
+sudo dpkg -i packetbeat-7.5.0-amd64.deb
+sudo rm packetbeat*
+# apt-get install packetbeat=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Packetbeat ----"
 sudo systemctl enable packetbeat
@@ -142,10 +147,10 @@ sudo systemctl restart packetbeat
 # Install Auditbeat
 #####################
 echo "---- Installing Auditbeat ----"
-# curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.5.0-amd64.deb
-# sudo dpkg -i auditbeat-7.5.0-amd64.deb
-# sudo rm auditbeat*
-apt-get auditbeat=7.5.0 -y --allow-downgrades
+wget https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.5.0-amd64.deb
+sudo dpkg -i auditbeat-7.5.0-amd64.deb
+sudo rm auditbeat*
+# apt-get auditbeat=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Auditbeat ----"
 sudo systemctl enable auditbeat
