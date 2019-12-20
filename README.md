@@ -8,8 +8,3 @@ This includes more than just Elasticsearch, Logstash, and Kibana. It also includ
 - Metricbeat
 - Packetbeat
 - Auditbeat
-- 
-
-### TO-DO
-- Breakdown into separate scripts
-- Test what possible "what ifs"
