@@ -43,6 +43,7 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/
 echo "---- Installing the Elasticsearch Debian Package ----"
 sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-amd64.deb
 sudo dpkg -i elasticsearch-7.5.0-amd64.deb
+sudo rm elasticsearch*
 # apt-get install elasticsearch=7.5.0 -y --allow-downgrades
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
@@ -63,6 +64,7 @@ sleep 120
 echo "---- Installing the Kibana Debian Package ----"
 sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
 sudo dpkg -i kibana-7.5.0-amd64.deb
+sudo rm kibana*
 # apt-get install kibana=7.5.0 -y --allow-downgrades
 cp /etc/kibana/kibana.yml /tmp/
 my_ip=\""$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')\""
@@ -105,6 +107,7 @@ sudo systemctl restart filebeat
 echo "---- Installing Logstash ----"
 sudo wget https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
 sudo dpkg -i logstash-7.5.0.deb
+sudo rm logstash*
 # apt-get install logstash=7.5.0 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Logstash ----"
