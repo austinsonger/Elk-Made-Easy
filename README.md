@@ -2,6 +2,8 @@
 
 ## Elasticsearch, Logstash, Kibana Installation Made Easy
 
+![](https://images.onlinelabels.com/images/clip-art/lemmling/lemmling_Cartoon_elk.png)
+
 This includes more than just Elasticsearch, Logstash, and Kibana. It also includes the following:
 - Metricbeat
 - Packetbeat
