@@ -20,14 +20,14 @@ sudo -n true
 sudo apt-get update 
 sudo apt-get upgrade -y
 sudo apt-get install openjdk-8-jre-headless -y
-add-apt-repository ppa:webupd8team/java
+# add-apt-repository ppa:webupd8team/java
 echo ">> Pre-agreeing to Oracle License"
 echo debconf shared/accepted-oracle-license-v1-1 select true | \
   sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | \
   sudo debconf-set-selections
 echo ">> Installing Java"
-apt-get -y install oracle-java8-installer 
+# apt-get -y install oracle-java8-installer 
 sudo echo $JAVA_HOME
 sudo apt-get install curl apt-transport-https software-properties-common lsb-release gnupg2 dirmngr sudo expect net-tools -y
 curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
