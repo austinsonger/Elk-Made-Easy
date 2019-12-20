@@ -41,8 +41,8 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/
 # Install Elasticsearch
 ##########################################
 echo "---- Installing the Elasticsearch Debian Package ----"
-sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0.deb
-sudo dpkg -i elasticsearch-7.5.0.deb
+sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-amd64.deb
+sudo dpkg -i elasticsearch-7.5.0-amd64.deb
 # apt-get install elasticsearch=7.5.0 -y --allow-downgrades
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
 sed -i "s/^#http\.port/http.port/" /etc/elasticsearch/elasticsearch.yml
