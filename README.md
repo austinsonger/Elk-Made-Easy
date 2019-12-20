@@ -1,4 +1,4 @@
-# Elk+ Made Easy
+# ELK+ Made Easy
 
 ## Elasticsearch, Logstash, Kibana Installation Made Easy
 
