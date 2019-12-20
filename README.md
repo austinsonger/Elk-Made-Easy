@@ -11,4 +11,5 @@ This includes more than just Elasticsearch, Logstash, and Kibana. It also includ
 - 
 
 ### TO-DO
-- Finish rpm_elk to match debian_elk
+- Breakdown into separate scripts
+- Test what possible "what ifs"
