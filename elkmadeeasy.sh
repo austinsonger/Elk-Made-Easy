@@ -42,8 +42,8 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/
 # Install Elasticsearch
 ##########################################
 echo "---- Installing the Elasticsearch Debian Package ----"
-sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-amd64.deb
-sudo dpkg -i elasticsearch-7.5.0-amd64.deb
+sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.8.1-amd64.deb
+sudo dpkg -i elasticsearch-7.8.1-amd64.deb
 sudo rm elasticsearch*
 # apt-get install elasticsearch=7.5.0 -y --allow-downgrades
 sed -i "s/^#network\.host/network.host/" /etc/elasticsearch/elasticsearch.yml
@@ -63,10 +63,10 @@ sleep 120
 # Install kibana
 #####################
 echo "---- Installing the Kibana Debian Package ----"
-sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-7.5.0-amd64.deb
-sudo dpkg -i kibana-7.5.0-amd64.deb
+sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-7.8.1-amd64.deb
+sudo dpkg -i kibana-7.8.1-amd64.deb
 sudo rm kibana*
-# apt-get install kibana=7.5.0 -y --allow-downgrades
+# apt-get install kibana=7.8.1 -y --allow-downgrades
 cp /etc/kibana/kibana.yml /tmp/
 my_ip=\""$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')\""
 sed -i "s/^#server\.host: \"localhost\"/server\.host: $my_ip/" /etc/kibana/kibana.yml
@@ -88,8 +88,8 @@ sleep 10
 # Install Filebeat
 #####################
 echo "---- Installing Filebeat ----"
-wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb
-sudo dpkg -i filebeat-7.5.0-amd64.deb
+wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.8.1-amd64.deb
+sudo dpkg -i filebeat-7.8.1-amd64.deb
 sudo rm filebeat*
 # apt-get install filebeat=7.5.0 -y --allow-downgrades
 cp /etc/filebeat/filebeat.yml /tmp/
@@ -106,10 +106,10 @@ sudo systemctl restart filebeat
 # Install Logstash
 ##########################################
 echo "---- Installing Logstash ----"
-sudo wget https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
-sudo dpkg -i logstash-7.5.0.deb
+sudo wget https://artifacts.elastic.co/downloads/logstash/logstash-7.8.1.deb
+sudo dpkg -i logstash-7.8.1.deb
 sudo rm logstash*
-# apt-get install logstash=7.5.0 -y --allow-downgrades
+# apt-get install logstash=7.8.1 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Logstash ----"
 sudo systemctl enable logstash
@@ -120,10 +120,10 @@ sudo systemctl restart logstash
 # Install Metricbeat
 #####################
 echo "---- Installing Metricbeat ----"
-wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.5.0-amd64.deb
-sudo dpkg -i metricbeat-7.5.0-amd64.deb
+wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.8.1-amd64.deb
+sudo dpkg -i metricbeat-7.8.1-amd64.deb
 sudo rm metricbeat*
-# apt-get install metricbeat=7.5.0 -y --allow-downgrades
+# apt-get install metricbeat=7.8.1 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Metricbeat ----"
 sudo systemctl enable  metricbeat
@@ -135,10 +135,10 @@ sudo systemctl restart metricbeat
 #####################
 echo "---- Installing Packetbeat ----"
 sudo apt-get install libpcap0.8
-wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.5.0-amd64.deb
-sudo dpkg -i packetbeat-7.5.0-amd64.deb
+wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.8.1-amd64.deb
+sudo dpkg -i packetbeat-7.8.1-amd64.deb
 sudo rm packetbeat*
-# apt-get install packetbeat=7.5.0 -y --allow-downgrades
+# apt-get install packetbeat=7.8.1 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Packetbeat ----"
 sudo systemctl enable packetbeat
@@ -149,10 +149,10 @@ sudo systemctl restart packetbeat
 # Install Auditbeat
 #####################
 echo "---- Installing Auditbeat ----"
-wget https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.5.0-amd64.deb
-sudo dpkg -i auditbeat-7.5.0-amd64.deb
+wget https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.8.1-amd64.deb
+sudo dpkg -i auditbeat-7.8.1-amd64.deb
 sudo rm auditbeat*
-# apt-get auditbeat=7.5.0 -y --allow-downgrades
+# apt-get auditbeat=7.8.1 -y --allow-downgrades
 #---------------------------------------
 echo "---- Starting Auditbeat ----"
 sudo systemctl enable auditbeat
