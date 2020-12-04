@@ -1,6 +1,6 @@
 # ELK+ Made Easy
 
-> Currently Unstable at the moment
+> Still in the process of working out the kinks.
 
 ## Elasticsearch, Logstash, Kibana Installation Made Easy
 
