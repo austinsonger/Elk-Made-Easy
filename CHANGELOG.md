@@ -10,3 +10,6 @@
 ### Added
 - Added Github Link
 
+## 1.0.0 - 2021-03-20
+
+Initial Release
