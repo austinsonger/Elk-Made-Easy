@@ -13,7 +13,7 @@ echo -e "[>>] Github : https://github.com/austinsonger                    [<<]"
 echo -e "[>>] Email : austin@songer.pro                                   [<<]"
 echo -e "[>>] ----------------------------------------------------------- [<<]"
 echo -e "[>>] ELK Made Easy                                               [<<]"
-echo -e "[>>] UBUNTU 18.04, 20.04                                         [<<]"
+echo -e "[>>] Tested on UBUNTU 18.04, 20.04                               [<<]"
 echo -e "[>>] ----------------------------------------------------------- [<<]"
 
 sudo -n true
