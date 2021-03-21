@@ -118,6 +118,34 @@ sleep 10
 sed -i "s/^deb/#deb/" /etc/apt/sources.list.d/elastic-7.x.list
 apt-get update
 
+
+### Nginx### Nginx
+# echo "admin:$(openssl passwd -apr1)" | tee -a /etc/nginx/htpasswd.users
+# echo -e "You need to set a username and password to login."
+# read -p "Please enter a username : " user
+# htpasswd -c /etc/nginx/conf.d/kibana.htpasswd $user
+# cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.$RANDOM.backup
+# touch /etc/nginx/sites-available/default
+# cat > /etc/nginx/sites-available/default <<\EOF
+# server {
+#     listen 80;
+#      server_name $HOSTNAME;
+#     auth_basic "Restricted Access";
+#     auth_basic_user_file /etc/nginx/htpasswd.users;
+#     location / {
+#         proxy_pass http://127.0.0.1:5601;
+#         proxy_http_version 1.1;
+#         proxy_set_header Upgrade \$http_upgrade;
+#         proxy_set_header Connection 'upgrade';
+#         proxy_set_header Host \$host;
+#         proxy_cache_bypass \$http_upgrade;
+#     }
+# }
+# EOF
+
+# nginx -t
+# systemctl start nginx
+
 # Remove old package lists #
 ############################
 rm -rf /var/lib/apt/lists/*
@@ -132,35 +160,5 @@ sudo find /tmp/ -type f -atime +1 -exec sudo rm {} \;
 sudo apt remove -y
 sudo apt clean -y
 sudo apt clean all -y
-
-### Nginx
-apt install nginx
-echo "admin:$(openssl passwd -apr1)" | tee -a /etc/nginx/htpasswd.users
-# echo -e "You need to set a username and password to login."
-# read -p "Please enter a username : " user
-# htpasswd -c /etc/nginx/conf.d/kibana.htpasswd $user
-touch /etc/nginx/sites-available/kibana
-cat > /etc/nginx/sites-available/kibana <<\EOF
- server {
-     listen 80;
-      server_name $HOSTNAME;
-     auth_basic "Restricted Access";
-     auth_basic_user_file /etc/nginx/htpasswd.users;
-     location / {
-         proxy_pass http://127.0.0.1:5601;
-         proxy_http_version 1.1;
-         proxy_set_header Upgrade \$http_upgrade;
-         proxy_set_header Connection 'upgrade';
-         proxy_set_header Host \$host;
-         proxy_cache_bypass \$http_upgrade;
-     }
- }
-EOF
-
-ln -s /etc/nginx/sites-available/kibana /etc/nginx/sites-enabled/
-
-nginx -t
-systemctl start nginx
-systemctl restart nginx
 
 read -p "Press [Enter] to exit."
