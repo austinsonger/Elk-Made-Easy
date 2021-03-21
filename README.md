@@ -8,3 +8,4 @@
 ## TO-DO
 - [X] Single-Node Installation.
 - [ ] Multi-Node Installation.
+- [ ] Dockerize Installation
