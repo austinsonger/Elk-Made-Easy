@@ -1,6 +1,7 @@
 # ELK Made Easy
 
-> Elasticsearch, Logstash, Kibana Installation Made Easy
+### Why another make another ELK deployment for Github?
+> To show my own flavor of setting up ELK.
 
 ![](https://www.wpclipart.com/animals/E/cartoon_elk.png)
 
