@@ -30,9 +30,9 @@ apt install net-tools
 apt install -y lsb-release &> /dev/null
 CHECK lsb_release 
 which lsb_release &> /dev/null
-[ "$?" != "0" ] && echo -e "\e[91m[>] WE CAN NOT FIND lsb_release COMMAND\e[0m" && exit !
+[ "$?" != "0" ] && echo -e "\e[91m[>] Can't find lsb_release COMMAND\e[0m" && exit !
 lsb_release -cs | grep 'focal' &> /dev/null
-[ "$?" != "0" ] && echo -e "\e[91m[>] WE CAN NOT INSTALL NETDATA IN YOUR OS\e[0m"
+[ "$?" != "0" ] && echo -e "\e[91m[>] Can't Install Netdata In Your OS\e[0m"
 apt install wget apt-transport-https curl gpgv gpgsm gnupg-l10n gnupg dirmngr nginx ca-certificates nginx software-properties-common apache2-utils jq -y
 sudo add-apt-repository universe
 sleep 10
