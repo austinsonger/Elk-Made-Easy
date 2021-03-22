@@ -33,7 +33,7 @@ which lsb_release &> /dev/null
 [ "$?" != "0" ] && echo -e "\e[91m[>] Can't find lsb_release COMMAND\e[0m" && exit !
 lsb_release -cs | grep 'focal' &> /dev/null
 [ "$?" != "0" ] && echo -e "\e[91m[>] Can't Install Netdata In Your OS\e[0m"
-apt install wget apt-transport-https curl gpgv gpgsm gnupg-l10n gnupg dirmngr ca-certificates nginx software-properties-common apache2-utils jq -y
+apt install wget apt-transport-https curl gpgv gpgsm gnupg-l10n gnupg dirmngr ca-certificates software-properties-common apache2-utils jq -y
 sudo add-apt-repository universe
 sleep 10
 
@@ -63,8 +63,8 @@ echo 'transport.tcp.port: 9300' >> /etc/elasticsearch/elasticsearch.yml
 echo 'network.host: localhost' >> /etc/elasticsearch/elasticsearch.yml
 echo 'http.port: 9200' >> /etc/elasticsearch/elasticsearch.yml
 echo 'discovery.type: single-node' >> /etc/elasticsearch/elasticsearch.yml
-echo 'xpack.security.enabled: true' >> /etc/elasticsearch/elasticsearch.yml
-echo 'setup.ilm.overwrite: true' >> /etc/elasticsearch/elasticsearch.yml
+# echo 'xpack.security.enabled: true' >> /etc/elasticsearch/elasticsearch.yml
+# echo 'setup.ilm.overwrite: true' >> /etc/elasticsearch/elasticsearch.yml
 echo '-Xms512m' >> /etc/elasticsearch/jvm.options
 echo '-Xmx512m' >> /etc/elasticsearch/jvm.options
 systemctl daemon-reload
@@ -83,8 +83,8 @@ cp /etc/kibana/kibana.yml /etc/kibana/kibana.yml.$RANDOM.backup
 echo -e "server.port: 5601" >> /etc/kibana/kibana.yml
 echo -e "server.host: $HOSTNAME" >> /etc/kibana/kibana.yml
 echo -e 'elasticsearch.hosts: ["http://localhost:9200"]' >> /etc/kibana/kibana.yml
-echo -e 'elasticsearch.username: "elastic"' >> /etc/kibana/kibana.yml
-echo -e 'elasticsearch.password: "ChangePassword1!"' >> /etc/kibana/kibana.yml
+# echo -e 'elasticsearch.username: "elastic"' >> /etc/kibana/kibana.yml
+# echo -e 'elasticsearch.password: "ChangePassword1!"' >> /etc/kibana/kibana.yml
 systemctl daemon-reload
 systemctl start kibana
 sleep 10
